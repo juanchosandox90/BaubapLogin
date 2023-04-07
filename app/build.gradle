@@ -37,7 +37,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.2.0'
+        kotlinCompilerExtensionVersion '1.4.4'
     }
     packagingOptions {
         resources {
@@ -48,16 +48,51 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
-    implementation "androidx.compose.ui:ui:$compose_ui_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation 'androidx.compose.material:material:1.2.0'
+    // Android Ktx
+    implementation "androidx.core:core-ktx:1.9.0"
+
+    // Lifecycle ktx extensions
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+
+    // Jetpack Compose activity
+    implementation "androidx.activity:activity-compose:1.7.0"
+
+    // Jetpack Compose Lifecycle Support
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
+
+    // Jetpack Compose
+    implementation "androidx.compose.ui:ui:1.4.1"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.4.1"
+
+    // Jetpack Compose Navigation Support
+    implementation "androidx.navigation:navigation-compose:2.5.3"
+
+    // Jetpack Compose ViewModel support
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
+
+    // Material3
+    implementation "androidx.compose.material3:material3:1.0.1"
+
+    // Jetpack Compose Material icons
+    implementation "androidx.compose.material:material-icons-extended:1.4.1"
+
+    //Coil Image
+    implementation "io.coil-kt:coil-compose:2.2.2"
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.1"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.4.1"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:1.4.1"
+
+    testImplementation 'org.mockito:mockito-core:5.2.0'
+    testImplementation 'org.mockito:mockito-inline:4.2.0'
+    testImplementation 'androidx.arch.core:core-testing:2.2.0'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
 }
