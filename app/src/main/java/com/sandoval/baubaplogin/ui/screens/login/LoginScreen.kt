@@ -64,7 +64,7 @@ fun LoginScreen() {
                         .height(128.dp)
                         .padding(top = AppTheme.dimens.paddingSmall),
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(data = R.drawable.baubaplogo)
+                        .data(data = R.drawable.ic_launcher_background)
                         .crossfade(enable = true).scale(Scale.FILL).build(),
                     contentDescription = "Logo de Baubap"
                 )
