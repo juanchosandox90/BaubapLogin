@@ -9,15 +9,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import com.sandoval.baubaplogin.ui.common.customComposablesViews.EmailTextField
 import com.sandoval.baubaplogin.ui.common.customComposablesViews.NormalButton
 import com.sandoval.baubaplogin.ui.common.customComposablesViews.PasswordTextField
+import com.sandoval.baubaplogin.ui.screens.login.state.LoginState
 import com.sandoval.baubaplogin.ui.theme.AppTheme
 
 @Composable
-fun LoginInputs() {
+fun LoginInputs(
+    loginState: LoginState,
+    onEmailOrMobileChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
+    onSubmit: () -> Unit,
+    onForgotPasswordClicked: () -> Unit,
+) {
     //Login inputS section
     Column(modifier = Modifier.fillMaxWidth()) {
         //Input Email
@@ -25,11 +33,11 @@ fun LoginInputs() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = AppTheme.dimens.paddingLarge),
-            value = "",
-            onValueChange = {},
+            value = loginState.emailOrMobile,
+            onValueChange = onEmailOrMobileChanged,
             label = "Email ID or Mobile Number",
-            isError = false,
-            errorText = ""
+            isError = loginState.errorState.emailOrMobileErrorState.hasError,
+            errorText = stringResource(id = loginState.errorState.emailOrMobileErrorState.errorMessage)
         )
 
 
@@ -38,11 +46,11 @@ fun LoginInputs() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = AppTheme.dimens.paddingLarge),
-            value = "",
-            onValueChange = {},
+            value = loginState.password,
+            onValueChange = onPasswordChanged,
             label = "Password",
-            isError = false,
-            errorText = "",
+            isError = loginState.errorState.passwordErrorState.hasError,
+            errorText = stringResource(id = loginState.errorState.passwordErrorState.errorMessage),
             imeAction = ImeAction.Done
         )
 
@@ -54,7 +62,7 @@ fun LoginInputs() {
                 )
                 .align(alignment = Alignment.End)
                 .clickable {
-
+                    onForgotPasswordClicked.invoke()
                 },
             text = "Forgot Password",
             color = MaterialTheme.colorScheme.secondary,
@@ -63,8 +71,10 @@ fun LoginInputs() {
         )
 
         // Login Button
-        NormalButton(text = "Login",
+        NormalButton(
+            text = "Login",
             modifier = Modifier.padding(top = AppTheme.dimens.paddingLarge),
-            onClick = {})
+            onClick = onSubmit
+        )
     }
 }

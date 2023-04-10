@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BaubapLogin</string>
+    <string name="empty_string" />
+    <!--Login Error Messages-->
+    <string name="login_error_msg_empty_email_mobile">Please enter your email or mobile number</string>
+    <string name="login_error_msg_empty_password">Please enter your password</string>
 </resources>
