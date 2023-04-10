@@ -6,7 +6,7 @@ data class LoginState(
     val emailOrMobile: String = "",
     val password: String = "",
     val errorState: LoginErrorState = LoginErrorState(),
-    val isLoginSuccesful: Boolean = false,
+    val isLoginSuccessful: Boolean = false,
 )
 
 data class LoginErrorState(
