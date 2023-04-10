@@ -10,10 +10,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import com.sandoval.baubaplogin.R
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -46,12 +48,12 @@ fun PasswordTextField(
             }) {
                 val visibleIconAndText = Pair(
                     first = Icons.Outlined.Visibility,
-                    second = "Password Visible"
+                    second = stringResource(id = R.string.icon_password_visible)
                 )
 
                 val hiddenIconAndText = Pair(
                     first = Icons.Outlined.VisibilityOff,
-                    second = "Password Hidden"
+                    second = stringResource(id = R.string.icon_password_hidden)
                 )
 
                 val passwordVisibilityIconAndText =

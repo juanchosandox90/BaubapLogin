@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -76,7 +77,7 @@ fun LoginScreen(
                         modifier = Modifier
                             .padding(top = AppTheme.dimens.paddingLarge)
                             .fillMaxWidth(),
-                        text = "Bauba App",
+                        text = stringResource(id = R.string.app_name),
                         textAlign = TextAlign.Center
                     )
 
@@ -89,14 +90,15 @@ fun LoginScreen(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(data = R.drawable.baubaplogo)
                             .crossfade(enable = true).scale(Scale.FILL).build(),
-                        contentDescription = "Logo de Baubap"
+                        contentDescription = stringResource(id = R.string.app_name),
                     )
 
                     //Login titulo
                     TitleText(
                         modifier = Modifier.padding(
                             top = AppTheme.dimens.paddingLarge
-                        ), text = "Login"
+                        ),
+                        text = stringResource(id = R.string.login_button_text),
                     )
 
                     //Caja de Inputs
@@ -129,7 +131,7 @@ fun LoginScreen(
             ) {
                 //Don't have an account?
                 Text(
-                    text = "Don't have an account?"
+                    text = stringResource(id = R.string.do_not_have_account),
                 )
 
                 //Register
@@ -139,7 +141,7 @@ fun LoginScreen(
                         .clickable {
 
                         },
-                    text = "Register",
+                    text = stringResource(id = R.string.register),
                     color = MaterialTheme.colorScheme.primary
                 )
             }
