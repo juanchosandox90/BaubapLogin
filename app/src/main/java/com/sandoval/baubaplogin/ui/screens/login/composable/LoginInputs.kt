@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import com.sandoval.baubaplogin.R
 import com.sandoval.baubaplogin.ui.common.customComposablesViews.EmailTextField
 import com.sandoval.baubaplogin.ui.common.customComposablesViews.NormalButton
 import com.sandoval.baubaplogin.ui.common.customComposablesViews.PasswordTextField
@@ -35,7 +36,7 @@ fun LoginInputs(
                 .padding(top = AppTheme.dimens.paddingLarge),
             value = loginState.emailOrMobile,
             onValueChange = onEmailOrMobileChanged,
-            label = "Email ID or Mobile Number",
+            label = stringResource(id = R.string.login_email_id_or_phone_label),
             isError = loginState.errorState.emailOrMobileErrorState.hasError,
             errorText = stringResource(id = loginState.errorState.emailOrMobileErrorState.errorMessage)
         )
@@ -48,7 +49,7 @@ fun LoginInputs(
                 .padding(top = AppTheme.dimens.paddingLarge),
             value = loginState.password,
             onValueChange = onPasswordChanged,
-            label = "Password",
+            label = stringResource(id = R.string.login_password_label),
             isError = loginState.errorState.passwordErrorState.hasError,
             errorText = stringResource(id = loginState.errorState.passwordErrorState.errorMessage),
             imeAction = ImeAction.Done
@@ -64,7 +65,7 @@ fun LoginInputs(
                 .clickable {
                     onForgotPasswordClicked.invoke()
                 },
-            text = "Forgot Password",
+            text = stringResource(id = R.string.forgot_password),
             color = MaterialTheme.colorScheme.secondary,
             textAlign = TextAlign.End,
             style = MaterialTheme.typography.bodyMedium
@@ -72,7 +73,7 @@ fun LoginInputs(
 
         // Login Button
         NormalButton(
-            text = "Login",
+            text = stringResource(id = R.string.login_button_text),
             modifier = Modifier.padding(top = AppTheme.dimens.paddingLarge),
             onClick = onSubmit
         )
