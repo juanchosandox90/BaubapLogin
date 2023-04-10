@@ -1,5 +1,6 @@
 package com.sandoval.baubaplogin.ui.screens.login
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,94 +16,136 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.sandoval.baubaplogin.R
 import com.sandoval.baubaplogin.ui.common.customComposablesViews.*
 import com.sandoval.baubaplogin.ui.screens.login.composable.LoginInputs
+import com.sandoval.baubaplogin.ui.screens.login.state.LoginUiEvent
+import com.sandoval.baubaplogin.ui.screens.login.viewmodel.LoginViewModel
 import com.sandoval.baubaplogin.ui.theme.AppTheme
 import com.sandoval.baubaplogin.ui.theme.BaubapLoginTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    loginViewModel: LoginViewModel = viewModel(),
+) {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .navigationBarsPadding()
-            .imePadding()
-            .verticalScroll(
-                rememberScrollState()
-            ), horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        ElevatedCard(
+    val loginState by remember {
+        loginViewModel.loginState
+    }
+
+
+    val currentContext = LocalContext.current
+
+    if (loginState.isLoginSuccessful) {
+        /**
+         * Navegar a la pantalla de autenticado una vez
+         * que el login sea satisfactorio
+         */
+        LaunchedEffect(key1 = true) {
+            Toast.makeText(currentContext, "Logged in", Toast.LENGTH_SHORT)
+                .show()
+        }
+    } else {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(AppTheme.dimens.paddingLarge)
+                .fillMaxSize()
+                .navigationBarsPadding()
+                .imePadding()
+                .verticalScroll(
+                    rememberScrollState()
+                ), horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
+            ElevatedCard(
                 modifier = Modifier
-                    .padding(horizontal = AppTheme.dimens.paddingLarge)
-                    .padding(bottom = AppTheme.dimens.paddingExtraLarge)
+                    .fillMaxWidth()
+                    .padding(AppTheme.dimens.paddingLarge)
             ) {
-
-                //Titulo de la pantalla
-                MediumTitleText(
+                Column(
                     modifier = Modifier
-                        .padding(top = AppTheme.dimens.paddingLarge)
-                        .fillMaxWidth(),
-                    text = "Bauba App",
-                    textAlign = TextAlign.Center
+                        .padding(horizontal = AppTheme.dimens.paddingLarge)
+                        .padding(bottom = AppTheme.dimens.paddingExtraLarge)
+                ) {
+
+                    //Titulo de la pantalla
+                    MediumTitleText(
+                        modifier = Modifier
+                            .padding(top = AppTheme.dimens.paddingLarge)
+                            .fillMaxWidth(),
+                        text = "Bauba App",
+                        textAlign = TextAlign.Center
+                    )
+
+                    //Logo del App en la Pantalla de Login
+                    AsyncImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(128.dp)
+                            .padding(top = AppTheme.dimens.paddingSmall),
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(data = R.drawable.baubaplogo)
+                            .crossfade(enable = true).scale(Scale.FILL).build(),
+                        contentDescription = "Logo de Baubap"
+                    )
+
+                    //Login titulo
+                    TitleText(
+                        modifier = Modifier.padding(
+                            top = AppTheme.dimens.paddingLarge
+                        ), text = "Login"
+                    )
+
+                    //Caja de Inputs
+                    LoginInputs(loginState = loginState,
+                        onEmailOrMobileChanged = { inputString ->
+                            loginViewModel.onUiEvent(
+                                loginUiEvent = LoginUiEvent.EmailOrMobileChanged(
+                                    inputString
+                                )
+                            )
+                        },
+                        onPasswordChanged = { inputString ->
+                            loginViewModel.onUiEvent(
+                                loginUiEvent = LoginUiEvent.PasswordChanged(
+                                    inputString
+                                )
+                            )
+                        },
+                        onSubmit = {
+                            loginViewModel.onUiEvent(loginUiEvent = LoginUiEvent.Submit)
+                        },
+                        onForgotPasswordClicked = {})
+                }
+            }
+
+            Row(
+                modifier = Modifier.padding(top = AppTheme.dimens.paddingNormal),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                //Don't have an account?
+                Text(
+                    text = "Don't have an account?"
                 )
 
-                //Logo del App en la Pantalla de Login
-                AsyncImage(
+                //Register
+                Text(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(128.dp)
-                        .padding(top = AppTheme.dimens.paddingSmall),
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(data = R.drawable.baubaplogo)
-                        .crossfade(enable = true).scale(Scale.FILL).build(),
-                    contentDescription = "Logo de Baubap"
-                )
+                        .padding(start = AppTheme.dimens.paddingExtraSmall)
+                        .clickable {
 
-                //Login titulo
-                TitleText(
-                    modifier = Modifier.padding(
-                        top = AppTheme.dimens.paddingLarge
-                    ), text = "Login"
+                        },
+                    text = "Register",
+                    color = MaterialTheme.colorScheme.primary
                 )
-
-                //Caja de Inputs
-                LoginInputs()
             }
         }
-
-        Row(
-            modifier = Modifier.padding(top = AppTheme.dimens.paddingNormal),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            //Don't have an account?
-            Text(
-                text = "Don't have an account?"
-            )
-
-            //Register
-            Text(
-                modifier = Modifier
-                    .padding(start = AppTheme.dimens.paddingExtraSmall)
-                    .clickable {
-
-                    },
-                text = "Register",
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
     }
+
 }
 
 @Preview(showBackground = true)
