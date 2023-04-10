@@ -1,6 +1,5 @@
 package com.sandoval.baubaplogin.ui.screens.login
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -33,6 +32,7 @@ import com.sandoval.baubaplogin.ui.theme.BaubapLoginTheme
 @Composable
 fun LoginScreen(
     loginViewModel: LoginViewModel = viewModel(),
+    onNavigateToAuthenticatedRoute: () -> Unit,
 ) {
 
     val loginState by remember {
@@ -48,8 +48,7 @@ fun LoginScreen(
          * que el login sea satisfactorio
          */
         LaunchedEffect(key1 = true) {
-            Toast.makeText(currentContext, "Logged in", Toast.LENGTH_SHORT)
-                .show()
+            onNavigateToAuthenticatedRoute.invoke()
         }
     } else {
         Column(
@@ -154,6 +153,6 @@ fun LoginScreen(
 @Composable
 fun PreviewLoginScreen() {
     BaubapLoginTheme {
-        LoginScreen()
+        LoginScreen(onNavigateToAuthenticatedRoute = {})
     }
 }
