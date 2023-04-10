@@ -9,7 +9,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.sandoval.baubaplogin.ui.screens.login.LoginScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.sandoval.baubaplogin.ui.screens.navigation.NavigationRoutes
+import com.sandoval.baubaplogin.ui.screens.navigation.authenticatedGraph
+import com.sandoval.baubaplogin.ui.screens.navigation.unauthenticatedGraph
 import com.sandoval.baubaplogin.ui.theme.BaubapLoginTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +34,22 @@ fun BaubaApp() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        LoginScreen()
+        MainBaubapAppNavHost()
+    }
+}
+
+@Composable
+fun MainBaubapAppNavHost(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+) {
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = NavigationRoutes.Unauthenticated.NavigationRoute.route
+    ) {
+        unauthenticatedGraph(navController = navController)
+        authenticatedGraph(navController = navController)
     }
 }
 
